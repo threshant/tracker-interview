@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1062518319951",
+    "project_id": "tracker-interview",
+    "storage_bucket": "tracker-interview.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062518319951:android:8c9cb1af6de6125c42b33a",
+        "android_client_info": {
+          "package_name": "com.contractorplus.tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062518319951-t6u17man9k3po8cckm7kmgm830uahk1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuxLYJFZzlqH1hA_R-XZxdu7A6GdsDzcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062518319951-t6u17man9k3po8cckm7kmgm830uahk1e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

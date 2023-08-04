@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">tracker</string>
+    <string name="previous_coordinates">Previous coordinates</string>
+</resources>
