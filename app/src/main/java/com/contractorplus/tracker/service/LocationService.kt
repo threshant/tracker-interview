@@ -40,7 +40,10 @@ class LocationService: Service(), LocationListener {
     }
 
     override fun onLocationChanged(p0: Location) {
-        Log.d("LocationService", "Location changed ${p0.speed}")
+        Log.d("LocationService", "Location changed: ${p0.speed}")
+        Log.d("LocationService", "isupdating: ${isLocationUpdating}")
+        Log.d("LocationService", "Lat:  ${p0.latitude}")
+        Log.d("LocationService", "Lng:  ${p0.longitude}")
         if(p0.speed>0 && !isLocationUpdating){
             locationInfo!!.startX = p0.longitude.toString()
             locationInfo!!.startY = p0.latitude.toString()
