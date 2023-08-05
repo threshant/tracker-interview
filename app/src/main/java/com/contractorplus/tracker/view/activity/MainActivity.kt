@@ -2,14 +2,15 @@ package com.contractorplus.tracker.view.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.contractorplus.tracker.Application.Companion.SERVICE_COMMAND
@@ -19,6 +20,7 @@ import com.contractorplus.tracker.databinding.ActivityMainBinding
 import com.contractorplus.tracker.service.LocationService
 import com.contractorplus.tracker.view.adapter.LocationsAdapter
 import com.contractorplus.tracker.viewmodel.MainActivityViewModel
+
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -51,6 +53,17 @@ class MainActivity : AppCompatActivity() {
             startLocationService()
             mainActivityViewModel.setSwitchState(true)
         }
+        val mysms: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, arg1: Intent) {
+                val lat = arg1.extras!!.getString("lat")
+                val lng = arg1.extras!!.getString("lng")
+                val speed = arg1.extras!!.getString("speed")
+                mainActivityViewModel._speed.value = speed
+                mainActivityViewModel._latitude.value = lat
+                mainActivityViewModel._longitude.value = lng
+            }
+        }
+        registerReceiver(mysms, IntentFilter("LOCATION_INFO"))
     }
 
     fun setupViews(){

@@ -1,5 +1,6 @@
 package com.contractorplus.tracker
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class Application: android.app.Application() {
@@ -14,7 +15,7 @@ class Application: android.app.Application() {
                 database = FirebaseDatabase.getInstance()
                 database!!.setPersistenceEnabled(true)
             }
-            val ref = database!!.getReference("locations/1234")
+            val ref = database!!.getReference("locations/${FirebaseAuth.getInstance().currentUser!!.uid}")
             return ref
         }
 

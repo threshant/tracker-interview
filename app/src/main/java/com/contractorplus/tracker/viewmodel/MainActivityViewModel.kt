@@ -14,9 +14,15 @@ class MainActivityViewModel: ViewModel() {
     private val locationsMutableLiveData = MutableLiveData<ArrayList<LocationInfo>>()
     private val switchState = MutableLiveData<Boolean>()
     private val databaseReference = Application.getDatabaseReference()
+    val _speed = MutableLiveData<String>()
+    val _latitude = MutableLiveData<String>()
+    val _longitude = MutableLiveData<String>()
     init{
         switchState.value = false
         getLocationUpdatesFromFirebase()
+        _speed.value = "0.0"
+        _latitude.value = "0.0"
+        _longitude.value = "0.0"
     }
     fun getLocationUpdatesFromFirebase(){
         databaseReference.addValueEventListener(object: ValueEventListener {

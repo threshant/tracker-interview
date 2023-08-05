@@ -2,6 +2,7 @@ package com.contractorplus.tracker.service
 
 import android.annotation.SuppressLint
 import android.app.Notification
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.location.Location
@@ -13,14 +14,25 @@ import androidx.core.app.NotificationCompat
 import com.contractorplus.tracker.Application
 import com.contractorplus.tracker.R
 import com.contractorplus.tracker.model.LocationInfo
+import com.google.android.gms.location.ActivityRecognitionClient
+import com.google.android.gms.location.ActivityTransitionRequest
+
 
 class LocationService: Service(), LocationListener {
     private lateinit var locationManager: LocationManager
     private var locationInfo: LocationInfo? = LocationInfo()
     private var isLocationUpdating = false
+    private lateinit var activityRecognition: ActivityRecognitionClient
+    private lateinit var activityTransitionRequest: ActivityTransitionRequest
+
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.d("LocationService", "Service created")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -40,28 +52,27 @@ class LocationService: Service(), LocationListener {
     }
 
     override fun onLocationChanged(p0: Location) {
-        Log.d("LocationService", "Location changed: ${p0.speed}")
-        Log.d("LocationService", "isupdating: ${isLocationUpdating}")
-        Log.d("LocationService", "Lat:  ${p0.latitude}")
-        Log.d("LocationService", "Lng:  ${p0.longitude}")
-        if(p0.speed>0 && !isLocationUpdating){
+        sendBroadcastToActivity(p0.latitude.toString(), p0.longitude.toString(), p0.speed.toString())
+        if(p0.speed>0.0f && !isLocationUpdating){
             locationInfo!!.startX = p0.longitude.toString()
             locationInfo!!.startY = p0.latitude.toString()
             isLocationUpdating = true
         }
-        else if (p0.speed == 0f && isLocationUpdating){
+        else if (p0.speed == 0.0f && isLocationUpdating){
             locationInfo!!.endX = p0.longitude.toString()
             locationInfo!!.endY = p0.latitude.toString()
             locationInfo!!.time = p0.time.toString()
             isLocationUpdating = false
             updateLocationToFirebase()
         }
-//        locationInfo!!.startX = p0.longitude.toString()
-//        locationInfo!!.startY = p0.latitude.toString()
-//        locationInfo!!.endX = p0.longitude.toString()
-//        locationInfo!!.endY = p0.latitude.toString()
-//        locationInfo!!.time = p0.time.toString()
-//        updateLocationToFirebase()
+    }
+
+    fun sendBroadcastToActivity(lat:String, lng:String, speed:String){
+        val broadcastIntent = Intent("LOCATION_INFO")
+        broadcastIntent.putExtra("lat", lat.toString())
+        broadcastIntent.putExtra("lng", lng.toString())
+        broadcastIntent.putExtra("speed", speed.toString())
+        sendBroadcast(broadcastIntent)
     }
 
     fun getNotification(): Notification{
