@@ -8,8 +8,10 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.contractorplus.tracker.Application
 import com.contractorplus.tracker.R
@@ -35,6 +37,7 @@ class LocationService: Service(), LocationListener {
         Log.d("LocationService", "Service created")
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("LocationService", "Service started")
         startForeground(1, getNotification())
@@ -85,6 +88,7 @@ class LocationService: Service(), LocationListener {
         return notification
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     @SuppressLint("MissingPermission")
     fun startLocationUpdates(){
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager

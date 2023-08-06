@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.contractorplus.tracker.Application
 import com.contractorplus.tracker.model.LocationInfo
+import com.contractorplus.tracker.model.PermissionsInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.GenericTypeIndicator
@@ -14,10 +15,13 @@ class MainActivityViewModel: ViewModel() {
     private val locationsMutableLiveData = MutableLiveData<ArrayList<LocationInfo>>()
     private val switchState = MutableLiveData<Boolean>()
     private val databaseReference = Application.getDatabaseReference()
+    private val permissionsInfo = PermissionsInfo()
+    val permissionsInfoData = MutableLiveData<PermissionsInfo>()
     val _speed = MutableLiveData<String>()
     val _latitude = MutableLiveData<String>()
     val _longitude = MutableLiveData<String>()
     init{
+        permissionsInfoData.value = permissionsInfo
         switchState.value = false
         getLocationUpdatesFromFirebase()
         _speed.value = "0.0"
@@ -56,5 +60,15 @@ class MainActivityViewModel: ViewModel() {
 
     fun setSwitchState(state: Boolean){
         switchState.value = state
+    }
+
+    fun setLocationPermission(state: Boolean){
+        permissionsInfo.locationPermission = state
+        permissionsInfoData.value = permissionsInfo
+    }
+
+    fun setGPSTurnedOn(state: Boolean){
+        permissionsInfo.gpsTurnedOn = state
+        permissionsInfoData.value = permissionsInfo
     }
 }

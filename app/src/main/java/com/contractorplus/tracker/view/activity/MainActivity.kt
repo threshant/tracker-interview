@@ -6,8 +6,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -30,7 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationsAdapter: LocationsAdapter
     private lateinit var locationServiceIntent : Intent
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var locationManager: LocationManager
+    private lateinit var locationPermissionRequest: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,18 +49,28 @@ class MainActivity : AppCompatActivity() {
         runSetup()
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainActivityViewModel.setGPSTurnedOn(checkGpsStatus())
+        mainActivityViewModel.setLocationPermission(checkLocationPermission())
+    }
+
+
     fun runSetup(){
         setupViews()
         setupListeners()
         setupObservers()
-        if(!checkLocationPermission()){
-            requestLocationPermission()
+        locationPermissionRequest = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                mainActivityViewModel.setLocationPermission(true)
+            } else {
+                mainActivityViewModel.setLocationPermission(false)
+            }
         }
-        else{
-            startLocationService()
-            mainActivityViewModel.setSwitchState(true)
-        }
-        val mysms: BroadcastReceiver = object : BroadcastReceiver() {
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationReciever: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(arg0: Context?, arg1: Intent) {
                 val lat = arg1.extras!!.getString("lat")
                 val lng = arg1.extras!!.getString("lng")
@@ -63,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 mainActivityViewModel._longitude.value = lng
             }
         }
-        registerReceiver(mysms, IntentFilter("LOCATION_INFO"))
+        registerReceiver(locationReciever, IntentFilter("LOCATION_INFO"))
     }
 
     fun setupViews(){
@@ -73,7 +90,15 @@ class MainActivity : AppCompatActivity() {
         locationsRecyclerView.adapter = locationsAdapter
     }
 
-    fun setupListeners(){}
+    fun setupListeners(){
+        binding.turnOnGps.setOnClickListener {
+            requestGpsTurnOn()
+        }
+        binding.turnOnLocation.setOnClickListener {
+            requestLocationPermission()
+        }
+    }
+
 
     fun setupObservers(){
         mainActivityViewModel.locations().observe(this) {
@@ -81,11 +106,17 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity", "Locations read from Firebas${it[0].startX}")
         }
         mainActivityViewModel.switchState().observe(this) {
-            if(it){
+            Log.d("MainActivity", "Switch state changed to $it")
+            if(it && mainActivityViewModel.permissionsInfoData.value!!.locationPermission == true && mainActivityViewModel.permissionsInfoData.value!!.gpsTurnedOn == true){
                 startLocationService()
+                Log.d("MainActivity", "Service started")
+            }
+            else if(this::locationServiceIntent.isInitialized && !it){
+                stopLocationService()
+                Log.d("MainActivity", "Service stopped")
             }
             else{
-                stopLocationService()
+                return@observe
             }
         }
     }
@@ -96,8 +127,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun requestLocationPermission(){
-        ActivityCompat.requestPermissions(this,
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 101)
+        locationPermissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    fun checkGpsStatus():Boolean{
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+    fun requestGpsTurnOn(){
+        val intent = Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        startActivity(intent)
     }
 
     fun startLocationService(){

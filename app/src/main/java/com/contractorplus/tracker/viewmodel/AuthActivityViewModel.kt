@@ -4,6 +4,7 @@ import android.opengl.Visibility
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.contractorplus.tracker.model.PermissionsInfo
 import com.contractorplus.tracker.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
