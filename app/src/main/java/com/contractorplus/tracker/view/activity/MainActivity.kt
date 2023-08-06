@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         mainActivityViewModel.setGPSTurnedOn(checkGpsStatus())
         mainActivityViewModel.setLocationPermission(checkLocationPermission())
+
     }
 
 
@@ -117,6 +118,15 @@ class MainActivity : AppCompatActivity() {
             }
             else{
                 return@observe
+            }
+        }
+
+        mainActivityViewModel.permissionsInfoData.observe(this) {
+            if(it.locationPermission == true && it.gpsTurnedOn == true){
+                mainActivityViewModel.setSwitchState(true)
+            }
+            else{
+                mainActivityViewModel.setSwitchState(false)
             }
         }
     }
