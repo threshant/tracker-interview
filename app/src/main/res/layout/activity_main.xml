@@ -54,7 +54,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
-                                android:text="Please turn on GPS"
+                                android:text="@string/please_turn_on_gps"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
@@ -62,7 +62,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="10dp"
-                                android:text="Turn on the GPS to get the accurate results of coordinates."
+                                android:text="@string/turn_on_the_gps_to_get_the_accurate_results_of_coordinates"
                                 android:textColor="@color/black" />
 
                             <TextView
@@ -70,7 +70,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="10dp"
-                                android:text="Turn on"
+                                android:text="@string/turn_on"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/teal_200"
                                 android:textSize="16sp"
@@ -111,7 +111,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
-                                android:text="Please enable location permission"
+                                android:text="@string/please_enable_location_permission"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
@@ -119,7 +119,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="10dp"
-                                android:text="Allow Tracker to access location, to measure the X and Y Coordinates."
+                                android:text="@string/allow_tracker_to_access_location_to_measure_the_x_and_y_coordinates"
                                 android:textColor="@color/black" />
 
                             <TextView
@@ -127,7 +127,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="10dp"
-                                android:text="Enable permission"
+                                android:text="@string/enable_permission"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/teal_200"
                                 android:textSize="16sp"
@@ -154,7 +154,7 @@
                         android:layout_margin="10dp"
                         android:checked="@{viewModel.switchState()}"
                         android:onCheckedChanged="@{(view, isChecked) -> viewModel.setSwitchState(isChecked)}"
-                        android:text="Enable location service"
+                        android:text="@string/enable_location_service"
                         tools:ignore="UseSwitchCompatOrMaterialXml" />
                 </androidx.cardview.widget.CardView>
 
@@ -180,7 +180,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.3"
-                                android:text="Speed: "
+                                android:text="@string/speed"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
@@ -200,7 +200,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.3"
-                                android:text="Latitude: "
+                                android:text="@string/latitude"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
@@ -222,7 +222,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.3"
-                                android:text="Longitude: "
+                                android:text="@string/longitude"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 

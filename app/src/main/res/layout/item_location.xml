@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Start cords"
+                    android:text="@string/start_cords"
                     android:textColor="@color/teal_700"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="End cords"
+                    android:text="@string/end_cords"
                     android:textColor="@color/teal_700"
                     android:textSize="20sp"
                     android:textStyle="bold" />

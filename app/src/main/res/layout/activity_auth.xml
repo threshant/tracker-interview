@@ -39,7 +39,7 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text="@={viewModel._email}"
-                    android:hint="Email address" />
+                    android:hint="@string/email_address" />
 
                 <EditText
                     android:id="@+id/editTextTextPersonName2"
@@ -47,7 +47,7 @@
                     android:layout_height="50dp"
                     android:ems="10"
                     android:text="@={viewModel._password}"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPersonName|textPassword" />
 
                 <TextView
@@ -76,7 +76,7 @@
                         android:layout_weight="0.5"
                         android:background="@color/teal_200"
                         android:onClick="@{() -> viewModel.login()}"
-                        android:text="Login" />
+                        android:text="@string/login" />
 
                     <Button
                         android:id="@+id/signupBtn"
@@ -86,7 +86,7 @@
                         android:layout_weight="0.5"
                         android:background="@color/purple_500"
                         android:onClick="@{() -> viewModel.signup()}"
-                        android:text="Signup" />
+                        android:text="@string/signup" />
                 </LinearLayout>
 
                 <ProgressBar
