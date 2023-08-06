@@ -23,6 +23,13 @@ The GPS Tracker App utilizes the Android platform's location services to track u
 6. The app continues tracking your movement even when running in the background.
 7. To stop tracking, simply toggle the tracking switch off.
 
+## How it works
+1. It uses GPS to track the current speed, latitude and longitude
+2. Keeps track of the initial data, if the speed is greater than 0.
+3. Once the speed again reaches 0, it will push the gathered start and stop location the a firebase realtime database
+4. Everything will be handled by the Foreground service
+5. And the updated values will be displayed in a recyclerview with help of MutableliveData since it uses MVVM pattern
+
 ## Permissions
 
 The GPS Tracker App requires the following permissions:
